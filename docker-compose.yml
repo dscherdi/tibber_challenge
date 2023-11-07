@@ -1,0 +1,32 @@
+version: '3.8'
+networks:
+  tibber-robot-network:
+    name: tibber-robot-network
+
+services:
+  tibber-robot-service:
+    depends_on:
+      - db
+    build:
+      context: ./TibberRobotService
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+      - ConnectionStrings:DefaultConnection=Host=db;Port=5432;Database=tibber_db;User ID=postgres;Password=postgres;
+    restart: on-failure
+    # networks:
+    #   - tibber-robot-network
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: tibber_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    # networks:
+    #   - tibber-robot-network

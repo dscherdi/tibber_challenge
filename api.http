@@ -1,0 +1,24 @@
+@host = http://0.0.0.0:5001
+@startX = 10
+@startY = 22
+
+### Trigger the robot cleaning path
+POST {{host}}/tibber-developer-test/enter-path
+Content-Type: application/json
+
+{
+  "start": {
+    "x": {{startX}},
+    "y": {{startY}}
+  },
+  "commands": [
+    {
+      "direction": "east",
+      "steps": 2
+    },
+    {
+      "direction": "north",
+      "steps": 1
+    }
+  ]
+}
